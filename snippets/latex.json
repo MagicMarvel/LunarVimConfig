@@ -1,0 +1,19 @@
+{
+	// Place your snippets for latex here. Each snippet is defined under a snippet name and has a prefix, body and 
+	// description. The prefix is what is used to trigger the snippet and the body will be expanded and inserted. Possible variables are:
+	// $1, $2 for tab stops, $0 for the final cursor position, and ${1:label}, ${2:another} for placeholders. Placeholders with the 
+	// same ids are connected.
+	// Example:
+	"插入图片": {
+		"prefix": "photo",
+		"body": [
+			"\\begin{figure}[H] %H为当前位置，!htb为忽略美学标准，htbp为浮动图形",
+			"    \\centering %图片居中",
+			"    \\includegraphics[width=0.45\\textwidth]{a.png} %插入图片，[]中设置图片大小，{}中是图片文件名",
+			"    \\caption{game diagram} %最终文档中希望显示的图片标题",
+			"    \\label{Fig.main1} %用于文内引用的标签",
+			"\\end{figure}"
+		],
+		"description": "插入图片"
+	}
+}

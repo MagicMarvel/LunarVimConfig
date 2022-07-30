@@ -1,0 +1,103 @@
+{
+  "acm竞赛头文件模板": {
+    "prefix": "ACM-template",
+    "body": [
+      "#include<bits/stdc++.h>",
+      "",
+      "using namespace std;",
+      "",
+      "void fileInOut() {",
+      "#ifdef LOCAL",
+      "    freopen(\"read.txt\", \"r\", stdin);",
+      "    freopen(\"write.txt\", \"w\", stdout);",
+      "#endif",
+      "}",
+      "",
+      "int main() {",
+      "    std::ios::sync_with_stdio(false);",
+      "    \/\/fileInOut();",
+      "    $0",
+      "",
+      "    return 0;",
+      "}"
+    ],
+    "description": "acm竞赛头文件模板"
+  },
+  "i的for循环": {
+    "prefix": "fori",
+    "description": "i的for循环",
+    "body": [
+      "for (int i = 1; i <= $1; i++) {",
+      "    $0",
+      "}"
+    ]
+  },
+  "j的for循环": {
+    "prefix": "forj",
+    "description": "j的for循环",
+    "body": [
+      "for (int j = 1; j <= $1; j++) {",
+      "    $0",
+      "}"
+    ]
+  },
+  "k的for循环": {
+    "prefix": "fork",
+    "description": "k的for循环",
+    "body": [
+      "for (int k = 1; k <= $1; k++) {",
+      "    $0",
+      "}"
+    ]
+  },
+  "并查集": {
+    "prefix": "bcj",
+    "description": "并查集，一定需要初始化",
+    "body": [
+      "class UnionFindAlgorithm {",
+      "   private:",
+      "    int unionSize;",
+      "    vector<int> father;",
+      "",
+      "   public:",
+      "    UnionFindAlgorithm(int n) {",
+      "        this->unionSize = n;",
+      "        for (int i = 0; i <= unionSize; i++) father.push_back(i);",
+      "    }",
+      "    int find(int a) {",
+      "        if (father[a] != a) father[a] = find(father[a]);",
+      "        return father[a];",
+      "    }",
+      "    void Union(int a, int b) { father[find(a)] = find(b); }",
+      "    bool isSameUnion(int a, int b) { return (find(a)) == (find(b)); }",
+      "};"
+    ]
+  },
+  "邻接链表": {
+    "prefix": "ljlb",
+    "description": [
+      "输入边数",
+      "放进edge里的结构体必须要有next,from,to,这几个,home指的是导航数组.如果edge[.].next为0说明结束了没有下一条边",
+      "v用于计数，一定要记得初始化为0"
+    ],
+    "body": [
+      "int v=0,home[$1];",
+      "struct myMap{",
+      "int from,to,next;",
+      "}edge[$0];",
+      "template <typename T> void adjacencyListMake(T *edge, int *home, int a, int b, int &v)",
+      "{",
+      "v++;",
+      "edge[v].next=home[a];",
+      "edge[v].from=a;",
+      "edge[v].to=b;",
+      "home[a]=v;",
+      "}"
+    ]
+  },
+  "黑框输出的停止语句": {
+    "prefix": "ppause",
+    "description": "system(\"pause\");",
+    "body": "system(\"pause\");"
+  }
+}
