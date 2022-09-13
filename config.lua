@@ -11,7 +11,7 @@ an executable
 -- general
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "onedarker"
+lvim.colorscheme = "vscode"
 -- lvim.colorscheme = "tokyonight"
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
@@ -21,6 +21,8 @@ lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
 lvim.keys.insert_mode["<C-s>"] = "<cmd>:w<cr>"
+lvim.keys.insert_mode["<C-z>"] = "<cmd>:undo<cr>"
+lvim.keys.normal_mode["<C-z>"] = "<cmd>:undo<cr>"
 -- unmap a default keymapping
 -- vim.keymap.del("n", "<C-Up>")
 -- override a default keymapping
@@ -56,7 +58,6 @@ lvim.keys.insert_mode["<C-s>"] = "<cmd>:w<cr>"
 --   w = { "<cmd>Trouble workspace_diagnostics<cr>", "Wordspace Diagnostics" },
 -- }
 
--- TODO: User Config for predefined plugins
 -- After changing plugin config exit and reopen LunarVim, Run :PackerInstall :PackerCompile
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
@@ -65,8 +66,20 @@ lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.dap.active = true
+lvim.builtin.terminal.direction = "horizontal"
 
--- if you don't want all the parsers change this to a table of the ones you want
+local function cmpConfig()
+  local cmp = require('cmp')
+  return cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  })
+end
+
+lvim.builtin.cmp.mapping = cmpConfig()
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -148,7 +161,6 @@ lvim.builtin.treesitter.highlight.enabled = true
 
 -- Additional Plugins
 lvim.plugins = {
-  { "folke/tokyonight.nvim" },
   {
     -- 优雅的错误提示集成块
     "folke/trouble.nvim",
@@ -166,7 +178,6 @@ lvim.plugins = {
       vim.api.nvim_set_keymap("n", "f", ":HopWord<cr>", { silent = true })
     end,
   },
-  -- { "mfussenegger/nvim-dap" },
   {
     -- markdown浏览器预览
     "iamcco/markdown-preview.nvim",
@@ -202,19 +213,18 @@ lvim.plugins = {
       require("todo-comments").setup()
     end,
   },
-  -- ,
-  -- {
-  --   "lukas-reineke/indent-blankline.nvim",
-  --   event = "BufRead",
-  --   setup = function()
-  --     vim.g.indentLine_enabled = 1
-  --     vim.g.indent_blankline_char = "▏"
-  --     vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
-  --     vim.g.indent_blankline_buftype_exclude = { "terminal" }
-  --     vim.g.indent_blankline_show_trailing_blankline_indent = false
-  --     vim.g.indent_blankline_show_first_indent_level = false
-  --   end
-  -- }
+  {
+    "lukas-reineke/indent-blankline.nvim",
+    event = "BufRead",
+    setup = function()
+      vim.g.indentLine_enabled = 1
+      vim.g.indent_blankline_char = "▏"
+      vim.g.indent_blankline_filetype_exclude = { "help", "terminal", "dashboard" }
+      vim.g.indent_blankline_buftype_exclude = { "terminal" }
+      vim.g.indent_blankline_show_trailing_blankline_indent = false
+      vim.g.indent_blankline_show_first_indent_level = false
+    end
+  },
 
   -- {
   --   "github/copilot.vim"
@@ -248,6 +258,9 @@ lvim.plugins = {
         css_fn = true, -- Enable all CSS *functions*: rgb_fn, hsl_fn
       })
     end,
+  },
+  {
+    "Mofiqul/vscode.nvim"
   }
 }
 -- copilot的配置
