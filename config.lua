@@ -9,10 +9,11 @@ an executable
 -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 
 -- general
+vim.cmd [[set mouse= ]]
 lvim.log.level = "warn"
 lvim.format_on_save = true
-lvim.colorscheme = "vscode"
--- lvim.colorscheme = "tokyonight"
+lvim.colorscheme = "tokyonight"
+lvim.transparent_window = true
 -- to disable icons and use a minimalist setup, uncomment the following
 -- lvim.use_icons = false
 
@@ -20,7 +21,7 @@ lvim.colorscheme = "vscode"
 lvim.leader = "space"
 -- add your own keymapping
 lvim.keys.normal_mode["<C-s>"] = ":w<cr>"
-lvim.keys.insert_mode["<C-s>"] = "<cmd>:w<cr>"
+lvim.keys.insert_mode["<C-s>"] = "<esc>:w<cr>"
 lvim.keys.insert_mode["<C-z>"] = "<cmd>:undo<cr>"
 lvim.keys.normal_mode["<C-z>"] = "<cmd>:undo<cr>"
 -- unmap a default keymapping
@@ -62,24 +63,23 @@ lvim.keys.normal_mode["<C-z>"] = "<cmd>:undo<cr>"
 lvim.builtin.alpha.active = true
 lvim.builtin.alpha.mode = "dashboard"
 lvim.builtin.notify.active = true
-lvim.builtin.terminal.active = true
 lvim.builtin.nvimtree.setup.view.side = "left"
 lvim.builtin.nvimtree.setup.renderer.icons.show.git = false
 lvim.builtin.dap.active = true
+lvim.builtin.terminal.active = true
 lvim.builtin.terminal.direction = "horizontal"
+lvim.builtin.terminal.insert_mappings = true
+-- 弹出式的代码提示配置
+local cmp = require("cmp")
+lvim.builtin.cmp.mapping = cmp.mapping.preset.insert({
+  ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+  ['<C-f>'] = cmp.mapping.scroll_docs(4),
+  ['<C-Space>'] = cmp.mapping.complete(),
+  ['<C-e>'] = cmp.mapping.abort(),
+  ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+  ['<TAB>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+})
 
-local function cmpConfig()
-  local cmp = require('cmp')
-  return cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  })
-end
-
-lvim.builtin.cmp.mapping = cmpConfig()
 lvim.builtin.treesitter.ensure_installed = {
   "bash",
   "c",
@@ -94,9 +94,9 @@ lvim.builtin.treesitter.ensure_installed = {
   "java",
   "yaml",
 }
-
 lvim.builtin.treesitter.ignore_install = { "haskell" }
 lvim.builtin.treesitter.highlight.enabled = true
+
 
 -- generic LSP settings
 
@@ -231,6 +231,7 @@ lvim.plugins = {
   -- },
   { "zbirenbaum/copilot.lua",
     -- 必须安装copilot.vim并登录以生成登录记录，才能使用该插件
+    ft_disable = { "cpp", "markdown" },
     event = { "VimEnter" },
     config = function()
       vim.defer_fn(function()
@@ -259,9 +260,12 @@ lvim.plugins = {
       })
     end,
   },
+  -- {
+  --   "Mofiqul/vscode.nvim"
+  -- },
   {
-    "Mofiqul/vscode.nvim"
-  }
+    "folke/tokyonight.nvim"
+  },
 }
 -- copilot的配置
 -- Can not be placed into the config method of the plugins.
